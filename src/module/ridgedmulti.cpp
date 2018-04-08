@@ -80,7 +80,7 @@ double RidgedMulti::GetValue (double x, double y, double z) const
     signal = GradientCoherentNoise3D (nx, ny, nz, seed, m_noiseQuality);
 
     // Make the ridges.
-    signal = std::fabs(signal);
+    signal = std::abs(signal);
     signal = offset - signal;
 
     // Square the signal to increase the sharpness of the ridges.

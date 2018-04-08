@@ -156,10 +156,10 @@ namespace noise
   /// you ensure that the resulting value is identical between platforms.
   inline double MakeInt32Range (double n)
   {
-    if (n >= 1073741824.0) {
-      return (2.0 * std::fmod(n, 1073741824.0)) - 1073741824.0;
-    } else if (n <= -1073741824.0) {
-      return (2.0 * std::fmod(n, 1073741824.0)) + 1073741824.0;
+    if (n >= std::exp2(30)) {
+      return (2.0 * std::fmod(n, std::exp2(30)) - std::exp2(30);
+    } else if (n <= -std::exp2(30)) {
+      return (2.0 * std::fmod(n, std::exp2(30))) + std::exp2(30);
     } else {
       return n;
     }

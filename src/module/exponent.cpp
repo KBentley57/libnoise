@@ -35,5 +35,5 @@ double Exponent::GetValue (double x, double y, double z) const
   assert (m_pSourceModule[0] != nullptr);
 
   double value = m_pSourceModule[0]->GetValue (x, y, z);
-  return (std::pow(std::fabs((value + 1.0) / 2.0), m_exponent) * 2.0 - 1.0);
+  return (std::pow(std::abs((value + 1.0) / 2.0), m_exponent) * 2.0 - 1.0);
 }

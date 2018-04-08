@@ -23,7 +23,7 @@
 #ifndef NOISE_MODEL_SPHERE_H
 #define NOISE_MODEL_SPHERE_H
 
-#include <assert.h>
+#include <cassert>
 #include "../module/modulebase.h"
 
 namespace noise
@@ -112,7 +112,7 @@ namespace noise
         {
           m_pModule = &module;
         }
-
+        
       private:
 
         /// A pointer to the noise module used to generate the output values.

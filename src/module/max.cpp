@@ -20,8 +20,8 @@
 // off every 'zig'.)
 //
 
-#include "../misc.h"
 #include "max.h"
+#include <algorithm>
 
 using namespace noise::module;
 
@@ -37,5 +37,5 @@ double Max::GetValue(double x, double y, double z) const
 
   double v0{ m_pSourceModule[0]->GetValue(x, y, z) };
   double v1{ m_pSourceModule[1]->GetValue(x, y, z) };
-  return GetMax(v0, v1);
+  return std::max(v0, v1);
 }

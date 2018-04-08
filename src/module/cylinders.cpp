@@ -20,7 +20,6 @@
 // off every 'zig'.)
 //
 
-#include "../misc.h"
 #include "cylinders.h"
 
 using namespace noise::module;
@@ -36,9 +35,9 @@ double Cylinders::GetValue (double x, double y, double z) const
   x *= m_frequency;
   z *= m_frequency;
 
-  double distFromCenter{ std::sqrt (x * x + z * z) };
+  double distFromCenter{ std::hypot(x,z) };
   double distFromSmallerSphere{ distFromCenter - std::floor(distFromCenter) };
   double distFromLargerSphere{ 1.0 - distFromSmallerSphere };
-  double nearestDist{ GetMin(distFromSmallerSphere, distFromLargerSphere) };
+  double nearestDist{ std::min(distFromSmallerSphere, distFromLargerSphere) };
   return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
 }

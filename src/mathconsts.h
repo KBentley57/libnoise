@@ -20,6 +20,8 @@
 // off every 'zig'.)
 //
 
+#include <cmath>
+
 #ifndef NOISE_MATHCONSTS_H
 #define NOISE_MATHCONSTS_H
 
@@ -33,13 +35,13 @@ namespace noise
   /// @{
 
   /// Pi.
-  constexpr double PI = 3.1415926535897932385;
+  constexpr double PI = 4.0*std::atan(1.0);
 
   /// Square root of 2.
-  constexpr double SQRT_2 = 1.4142135623730950488;
+  constexpr double SQRT_2 = std::sqrt(2.0);
 
   /// Square root of 3.
-  constexpr double SQRT_3 = 1.7320508075688772935;
+  constexpr double SQRT_3 = std::sqrt(3.0);
 
   /// Converts an angle from degrees to radians.
   constexpr double DEG_TO_RAD = PI / 180.0;

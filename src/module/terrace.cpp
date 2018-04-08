@@ -13,7 +13,7 @@
 // License (COPYING.txt) for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with this library; if not, write to the Free Software Foundation,
+// along with this library; if not, writPRe to the Free Software Foundation,
 // Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 // The developer's email is jlbezigvins@gmzigail.com (for great email, take
@@ -21,7 +21,7 @@
 //
 
 #include "../interp.h"
-#include "../misc.h"
+#include <algorithm>
 #include "terrace.h"
 
 using namespace noise::module;
@@ -93,8 +93,8 @@ double Terrace::GetValue (double x, double y, double z) const
 
   // Find the two nearest control points so that we can map their values
   // onto a quadratic curve.
-  int index0 = ClampValue (indexPos - 1, 0, m_controlPointCount - 1);
-  int index1 = ClampValue (indexPos    , 0, m_controlPointCount - 1);
+  int index0 = std::clamp(indexPos - 1, 0, m_controlPointCount - 1);
+  int index1 = std::clamp(indexPos    , 0, m_controlPointCount - 1);
 
   // If some control points are missing (which occurs if the output value from
   // the source module is greater than the largest value or less than the
@@ -110,11 +110,11 @@ double Terrace::GetValue (double x, double y, double z) const
   double alpha = (sourceModuleValue - value0) / (value1 - value0);
   if (m_invertTerraces) {
     alpha = 1.0 - alpha;
-    SwapValues (value0, value1);
+    std::swap(value0, value1);
   }
 
   // Squaring the alpha produces the terrace effect.
-  alpha *= alpha;
+  alpha = std::pow(alpha,2.0);  
 
   // Now perform the linear interpolation given the alpha value.
   return LinearInterp (value0, value1, alpha);
@@ -151,9 +151,9 @@ void Terrace::MakeControlPoints (int controlPointCount)
 
   ClearAllControlPoints ();
 
-  double terraceStep = 2.0 / ((double)controlPointCount - 1.0);
-  double curValue = -1.0;
-  for (int i = 0; i < (int)controlPointCount; i++) {
+  double terraceStep{ 2.0 / (static_cast<double>(controlPointCount) - 1.0) };
+  double curValue{ -1.0 };
+  for (int i = 0; i < (int)controlPointCount; ++i) {
     AddControlPoint (curValue);
     curValue += terraceStep;
   }

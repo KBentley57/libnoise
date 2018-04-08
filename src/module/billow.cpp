@@ -47,7 +47,7 @@ double Billow::GetValue (double x, double y, double z) const
   y *= m_frequency;
   z *= m_frequency;
 
-  for(int curOctave = 0; curOctave < m_octaveCount; curOctave++) {
+  for(int curOctave = 0; curOctave < m_octaveCount; ++curOctave) {
 
     // Make sure that these floating-point values have the same range as a 32-
     // bit integer so that we can pass them to the coherent-noise functions.
@@ -59,7 +59,7 @@ double Billow::GetValue (double x, double y, double z) const
     // final result.
     seed = (m_seed + curOctave) & 0xffffffff;
     signal = GradientCoherentNoise3D (nx, ny, nz, seed, m_noiseQuality);
-    signal = 2.0 * std::fabs(signal) - 1.0;
+    signal = 2.0 * std::abs(signal) - 1.0;
     value += signal * curPersistence;
 
     // Prepare the next octave.

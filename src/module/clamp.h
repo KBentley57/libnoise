@@ -42,11 +42,11 @@ namespace noise
 
     /// Default lower bound of the clamping range for the noise::module::Clamp
     /// noise module.
-    const double DEFAULT_CLAMP_LOWER_BOUND = -1.0;
+    constexpr double DEFAULT_CLAMP_LOWER_BOUND = -1.0;
 
     /// Default upper bound of the clamping range for the noise::module::Clamp
     /// noise module.
-    const double DEFAULT_CLAMP_UPPER_BOUND = 1.0;
+    constexpr double DEFAULT_CLAMP_UPPER_BOUND = 1.0;
 
     /// Noise module that clamps the output value from a source module to a
     /// range of values.

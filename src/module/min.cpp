@@ -20,8 +20,8 @@
 // off every 'zig'.)
 //
 
-#include "../misc.h"
 #include "min.h"
+#include <algorithm>
 
 using namespace noise::module;
 
@@ -37,5 +37,5 @@ double Min::GetValue (double x, double y, double z) const
 
   double v0{ m_pSourceModule[0]->GetValue (x, y, z) };
   double v1{ m_pSourceModule[1]->GetValue (x, y, z) };
-  return GetMin(v0, v1);
+  return std::min(v0, v1);
 }

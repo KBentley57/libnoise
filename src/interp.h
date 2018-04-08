@@ -20,6 +20,8 @@
 // off every 'zig'.)
 //
 
+#include <cmath>
+
 #ifndef NOISE_INTERP_H
 #define NOISE_INTERP_H
 
@@ -50,8 +52,7 @@ namespace noise
 	  double q{ (n0 - n1) - p };
 	  double r{ n2 - n0 };
 	  double s{ n1 };
-	  //return p * a * a * a + q * a * a + r * a + s;
-    return a * ( p*(a*a) + q*a + r ) + s ;
+    return p*std::pow(a,3.0) + q*std::pow(a,2.0) + r*a*s;
   }
 
   /// Performs linear interpolation between two values.
@@ -82,7 +83,7 @@ namespace noise
   /// 1.0
   inline double SCurve3 (double a)
   {
-    return (a * a * (3.0 - 2.0 * a));
+    return 3.0*std::pow(a,2.0) - 2.0*std::pow(a,3.0);
   }
 
   /// Maps a value onto a quintic S-curve.
@@ -100,10 +101,7 @@ namespace noise
   /// @a a = 1.0
   inline double SCurve5 (double a)
   {
-    double a3{ a * a * a };
-    double a4{ a3 * a };
-    double a5{ a4 * a };
-    return (6.0 * a5) - (15.0 * a4) + (10.0 * a3);
+    return 6.0*std::pow(a,5.0) - 15.0*std::pow(a,4.0) + 10.0*std::pow(a,3.0);
   }
 
   // @}

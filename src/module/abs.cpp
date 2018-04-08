@@ -33,5 +33,5 @@ double Abs::GetValue (double x, double y, double z) const
 {
   assert (m_pSourceModule[0] != nullptr);
 
-  return std::fabs(m_pSourceModule[0]->GetValue (x, y, z));
+  return std::abs(m_pSourceModule[0]->GetValue (x, y, z));
 }

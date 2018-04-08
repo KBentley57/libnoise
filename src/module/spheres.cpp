@@ -20,7 +20,6 @@
 // off every 'zig'.)
 //
 
-#include "../misc.h"
 #include "spheres.h"
 
 using namespace noise::module;
@@ -37,9 +36,9 @@ double Spheres::GetValue (double x, double y, double z) const
   y *= m_frequency;
   z *= m_frequency;
 
-  double distFromCenter{ sqrt (x * x + y * y + z * z) };
+  double distFromCenter{ std::hypot(x,y,z) };
   double distFromSmallerSphere{ distFromCenter - std::floor(distFromCenter) };
   double distFromLargerSphere{ 1.0 - distFromSmallerSphere };
-  double nearestDist{ GetMin(distFromSmallerSphere, distFromLargerSphere) };
+  double nearestDist{ std::min(distFromSmallerSphere, distFromLargerSphere) };
   return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
 }

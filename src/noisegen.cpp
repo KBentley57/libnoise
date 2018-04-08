@@ -228,6 +228,6 @@ double noise::ValueCoherentNoise3D (double x, double y, double z, int seed,
 
 double noise::ValueNoise3D(int x, int y, int z, int seed)
 {
-  return 1.0 - (static_cast<double>(IntValueNoise3D(x, y, z, seed)) / 1073741824.0);
+  return 1.0 - (static_cast<double>(IntValueNoise3D(x, y, z, seed)) / std::exp2(30));
 }
 

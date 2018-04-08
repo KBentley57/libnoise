@@ -21,7 +21,6 @@
 //
 
 #include "../interp.h"
-#include "../misc.h"
 #include "curve.h"
 
 using namespace noise::module;
@@ -90,10 +89,10 @@ double Curve::GetValue (double x, double y, double z) const
 
   // Find the four nearest control points so that we can perform cubic
   // interpolation.
-  int index0{ ClampValue(indexPos - 2, 0, m_controlPointCount - 1) };
-  int index1{ ClampValue(indexPos - 1, 0, m_controlPointCount - 1) };
-  int index2{ ClampValue(indexPos    , 0, m_controlPointCount - 1) };
-  int index3{ ClampValue(indexPos + 1, 0, m_controlPointCount - 1) };
+  int index0{ std::clamp(indexPos - 2, 0, m_controlPointCount - 1) };
+  int index1{ std::clamp(indexPos - 1, 0, m_controlPointCount - 1) };
+  int index2{ std::clamp(indexPos    , 0, m_controlPointCount - 1) };
+  int index3{ std::clamp(indexPos + 1, 0, m_controlPointCount - 1) };
 
   // If some control points are missing (which occurs if the value from the
   // source module is greater than the largest input value or less than the

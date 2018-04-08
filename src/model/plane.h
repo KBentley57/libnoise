@@ -22,7 +22,7 @@
 #ifndef NOISE_MODEL_PLANE_H
 #define NOISE_MODEL_PLANE_H
 
-#include <assert.h>
+#include <cassert>
 #include "../module/modulebase.h"
 
 namespace noise

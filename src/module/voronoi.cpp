@@ -47,7 +47,7 @@ double Voronoi::GetValue (double x, double y, double z) const
   int yInt{ y > 0.0 ? static_cast<int>(y) : static_cast<int>(y) - 1 };
   int zInt{ z > 0.0 ? static_cast<int>(z) : static_cast<int>(z) - 1 };
 
-  double minDist{ 2147483647.0 };
+  double minDist{ std::exp2(31) - 1 };
   double xCandidate{};
   double yCandidate{};
   double zCandidate{};
@@ -55,9 +55,9 @@ double Voronoi::GetValue (double x, double y, double z) const
   // Inside each unit cube, there is a seed point at a random position.  Go
   // through each of the nearby cubes until we find a cube with a seed point
   // that is closest to the specified position.
-  for (int zCur = zInt - 2; zCur <= zInt + 2; zCur++) {
-    for (int yCur = yInt - 2; yCur <= yInt + 2; yCur++) {
-      for (int xCur = xInt - 2; xCur <= xInt + 2; xCur++) {
+  for (int zCur = zInt - 2; zCur <= zInt + 2; ++zCur) {
+    for (int yCur = yInt - 2; yCur <= yInt + 2; ++yCur) {
+      for (int xCur = xInt - 2; xCur <= xInt + 2; ++xCur) {
 
         // Calculate the position and distance to the seed point inside of
         // this unit cube.
@@ -67,7 +67,7 @@ double Voronoi::GetValue (double x, double y, double z) const
         double xDist{ xPos - x };
         double yDist{ yPos - y };
         double zDist{ zPos - z };
-        double dist{ xDist * xDist + yDist * yDist + zDist * zDist };
+        double dist{ std::hypot(xDist,yDist,zDist) };
 
         if (dist < minDist) {
           // This seed point is closer to any others found so far, so record
@@ -86,9 +86,8 @@ double Voronoi::GetValue (double x, double y, double z) const
     // Determine the distance to the nearest seed point.
     double xDist{xCandidate - x};
     double yDist{yCandidate - y};
-    double zDist {zCandidate - z};
-    value = (sqrt (xDist * xDist + yDist * yDist + zDist * zDist)
-      ) * SQRT_3 - 1.0;
+    double zDist{zCandidate - z};
+    value = std::hypot(xDist,yDist,zDist) * SQRT_3 - 1.0;
   } else {
     value = 0.0;
   }
@@ -96,6 +95,6 @@ double Voronoi::GetValue (double x, double y, double z) const
   // Return the calculated distance with the displacement value applied.
   return value + (m_displacement * static_cast<double>(ValueNoise3D (
     static_cast<int>(std::floor (xCandidate)),
-    static_cast<int>(floor (yCandidate)),
-    static_cast<int>(floor (zCandidate)))));
+    static_cast<int>(std::floor (yCandidate)),
+    static_cast<int>(std::floor (zCandidate)))));
 }

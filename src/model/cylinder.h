@@ -23,9 +23,9 @@
 #ifndef NOISE_MODEL_CYLINDER_H
 #define NOISE_MODEL_CYLINDER_H
 
-#include <assert.h>
-#include <math.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
 #include "../module/modulebase.h"
 
 namespace noise

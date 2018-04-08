@@ -1,6 +1,6 @@
 SHELL:=/bin/bash
 
-CXXFLAGS:= -std=c++14 -fpic -O3 -march=native -mtune=native 
+CXXFLAGS:= -std=c++17 -fpic -O3 -march=native -mtune=native 
 CC:= gcc
 CXX:= g++
 
@@ -32,13 +32,13 @@ all: libnoise.so.1.0.0 docs
 .PHONY:install
 install: all
 	$(INSTALL) -D -m 0644 lib/libnoise.so.1.0.0 -t $(LIBDIR)
-	cd $(LIBDIR) && ln -s libnoise.so.1.0.0 libnoise.so
-	$(MAKE) -C $(PWD)/doc/latex
-	$(INSTALL) -D -m 0644 $(PWD)/doc/latex/refman.pdf -T $(DOCS)/libnoise1.pdf
-	$(INSTALL) -D -m 0644 doc/man/man3/* -t $(MANDIR)/man3
+	cd $(LIBDIR) && ln -s libnoise.so.1.0.0 libnoise.so	
 	$(INSTALL) -D -m 0644 src/*.h -t $(INCLUDE)/noise
 	$(INSTALL) -D -m 0644 src/model/*.h -t $(INCLUDE)/noise/model
 	$(INSTALL) -D -m 0644 src/module/*.h -t $(INCLUDE)/noise/module
+	$(MAKE) -C $(PWD)/doc/latex
+	$(INSTALL) -D -m 0644 $(PWD)/doc/latex/refman.pdf -T $(DOCS)/libnoise1.pdf
+	$(INSTALL) -D -m 0644 doc/man/man3/* -t $(MANDIR)/man3
 
 .PHONY: uninstall
 uninstall:
@@ -51,7 +51,10 @@ uninstall:
 libnoise.so.1.0.0: $(MODULE_OBJECTS) $(MODEL_OBJECTS) 
 	$(MKDIR) -p $(PWD)/lib
 	$(CXX) $(CXXFLAGS) -shared -o $(PWD)/lib/$@ $^
- 
+
+# The docs section requires a fairly extensive set of tex packages
+# If tex is not available on the system, edit the Doxyfile to turn 
+# Tex documentation off.
 .PHONY: docs
 docs: $(MODULE_SOURCES) $(MODEL_SOURCES) $(MODEL_HEADERS) $(MODULE_HEADERS)
 	cd $(PWD)/doc && $(DOXYGEN) Doxyfile
