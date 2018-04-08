@@ -155,6 +155,7 @@ int noise::IntValueNoise3D (int x, int y, int z, int seed)
 {
   // All constants are primes and must remain prime in order for this noise
   // function to work correctly.
+  // 0x7fffffff = 2^31 - 1
   int n = (
       X_NOISE_GEN    * x
     + Y_NOISE_GEN    * y
@@ -179,7 +180,9 @@ double noise::ValueCoherentNoise3D (double x, double y, double z, int seed,
 
   // Map the difference between the coordinates of the input value and the
   // coordinates of the cube's outer-lower-left vertex onto an S-curve.
-  double xs = 0, ys = 0, zs = 0;
+  double xs{};
+  double ys{};
+  double zs{};
   switch (noiseQuality) {
     case QUALITY_FAST:
       xs = (x - static_cast<double>(x0));

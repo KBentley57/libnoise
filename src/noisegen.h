@@ -157,7 +157,7 @@ namespace noise
   inline double MakeInt32Range (double n)
   {
     if (n >= std::exp2(30)) {
-      return (2.0 * std::fmod(n, std::exp2(30)) - std::exp2(30);
+      return (2.0 * std::fmod(n, std::exp2(30)) - std::exp2(30));
     } else if (n <= -std::exp2(30)) {
       return (2.0 * std::fmod(n, std::exp2(30))) + std::exp2(30);
     } else {
