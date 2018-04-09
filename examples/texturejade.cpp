@@ -24,7 +24,6 @@
 //
 
 #include <noise/noise.h>
-
 #include "noiseutils.h"
 
 using namespace noise;

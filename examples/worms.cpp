@@ -59,12 +59,12 @@
 #include <windows.h>
 #endif
 
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include <fstream>
 
-#include <gl/gl.h>
-#include <glut.h>
+#include <GL/gl.h>
+#include <GL/glut.h>
 
 #include <noise/noise.h>
 #include <noise/mathconsts.h>

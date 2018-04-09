@@ -10,7 +10,8 @@ INSTALL = install
 MKDIR = mkdir
 MV = mv
 
-PREFIX:= $(HOME)
+# Default prefix is always /usr/local.  override with make PREFIX=PATH.
+PREFIX:= /usr/local
 BINDIR:= $(PREFIX)/bin
 INCLUDEDIR:= $(PREFIX)/include
 LIBDIR:= $(PREFIX)/lib
@@ -34,7 +35,7 @@ UTIL_OBJECTS:=$(patsubst %.cpp,%.o,$(UTIL_SOURCES))
 default: all
 
 .PHONY: all
-all: includes libnoise.so.1.0.0 docs 
+all: includes libnoise.so.1.0.0 docs example
 
 .PHONY:install
 install: all
@@ -50,15 +51,15 @@ install: all
 	$(INSTALL) -D -m 0644 doc/html/* -t $(DOCS)/libnoise
 	$(INSTALL) -D -m 0644 doc/man/man3/* -t $(MANDIR)/man3
 
+EXAMPLE_SRC:=$(wildcard examples/*.cpp)
+EXAMPLE_BIN:=$(patsubst %.cpp, %, $(EXAMPLE_SRC))
+
+% : %.cpp
+	$(MKDIR) -p bin/examples
+	$(CXX) $(CXXFLAGS) -I./include -I/usr/include -L./lib -o bin/$@ $^ -lnoise
 
 .PHONY: example
-example: texturegranite
-
-.PHONY: texturegranite
-texturegranite: $(PWD)/examples/texturegranite.cpp
-	$(MKDIR) -p bin
-	$(CXX) $(CXXFLAGS) -I./include -L./lib -o bin/$@ $^ -lnoise
-
+example: all $(EXAMPLE_BIN)
 
 .PHONY: uninstall
 uninstall:
@@ -106,7 +107,7 @@ clean:
 
 .PHONY: clobber
 clobber: clean
-	$(RM) -rf lib doc/man doc/html include
+	$(RM) -rf lib bin include doc/man doc/html
 
 %.o : %.cpp
 	$(CXX) $(CXXFLAGS) -I$(PWD)/include -c -o $@ $^
