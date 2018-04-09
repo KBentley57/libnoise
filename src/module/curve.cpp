@@ -22,6 +22,7 @@
 
 #include "../interp.h"
 #include "curve.h"
+#include <algorithm>
 
 using namespace noise::module;
 
