@@ -35,28 +35,49 @@ UTIL_OBJECTS:=$(patsubst %.cpp,%.o,$(UTIL_SOURCES))
 default: all
 
 .PHONY: all
-all: includes libnoise.so.1.0.0 docs example
+all: includes libnoise.so.1.0.0 docs 
 
 .PHONY:install
 install: all
-	$(INSTALL) -D -m 0644 lib/libnoise.so.1.0.0 -t $(LIBDIR)
-	ln -sf $(LIBDIR)/libnoise.so.1.0.0 $(LIBDIR)/libnoise.so	
-	for i in ${UTIL_HEADERS}; do \
-		$(INSTALL) -D -m 0644 $${i} -t $(INCLUDEDIR)/noise; done 
-	for i in ${MODEL_HEADERS}; \
-		do $(INSTALL) -D -m 0644 $${i} -t $(INCLUDEDIR)/noise/model; done 
-	for i in ${MODULE_HEADERS}; \
-		do $(INSTALL) -D -m 0644 $${i} -t $(INCLUDEDIR)/noise/module; done 
-	ln -sfr $(INCLUDEDIR)/noise/noiseutils.h $(INCLUDEDIR)
-	$(INSTALL) -D -m 0644 doc/html/* -t $(DOCS)/libnoise
-	$(INSTALL) -D -m 0644 doc/man/man3/* -t $(MANDIR)/man3
+	$(INSTALL) -D -m 0644 lib/libnoise.so.1.0.0 $(LIBDIR)/libnoise.so.1.0.0
+	cd $(LIBDIR) && ln -sf libnoise.so.1.0.0 libnoise.so	
+	$(MKDIR) -m 0755 -p $(INCLUDEDIR)/noise/model $(INCLUDEDIR)/noise/module
+	$(CP) -a include/* $(INCLUDEDIR)
+	cd $(INCLUDEDIR) && ln -sf noise/noiseutils.h noiseutils.h
+	$(MKDIR) -m 0755 -p $(DOCS)/libnoise
+	$(CP) -a doc/html/* $(DOCS)/libnoise
+	$(MKDIR) -m 0755 -p $(MANDIR)/man3
+	$(CP) -a doc/man/man3/* $(MANDIR)/man3
 
-EXAMPLE_SRC:=$(wildcard examples/*.cpp)
-EXAMPLE_BIN:=$(patsubst %.cpp, %, $(EXAMPLE_SRC))
+EXAMPLE_BIN:= complexplanet granite sky wood jade slime worms
 
-% : %.cpp
-	$(MKDIR) -p bin/examples
-	$(CXX) $(CXXFLAGS) -I./include -I/usr/include -L./lib -o bin/$@ $^ -lnoise
+complexplanet: examples/complexplanet.cpp
+	$(MKDIR) -p bin
+	$(CXX) $(CXXFLAGS) -I./include -I/usr/include -L./lib -o bin/$@ $^ -lnoise 
+
+granite: examples/texturegranite.cpp
+	$(MKDIR) -p bin
+	$(CXX) $(CXXFLAGS) -I./include -L./lib -o bin/$@ $^ -lnoise 
+
+sky: examples/texturesky.cpp
+	$(MKDIR) -p bin
+	$(CXX) $(CXXFLAGS) -I./include -L./lib -o bin/$@ $^ -lnoise 
+
+wood: examples/texturewood.cpp
+	$(MKDIR) -p bin
+	$(CXX) $(CXXFLAGS) -I./include -L./lib -o bin/$@ $^ -lnoise 
+
+jade: examples/texturejade.cpp
+	$(MKDIR) -p bin
+	$(CXX) $(CXXFLAGS) -I./include -L./lib -o bin/$@ $^ -lnoise 
+
+slime: examples/textureslime.cpp
+	$(MKDIR) -p bin
+	$(CXX) $(CXXFLAGS) -I./include -L./lib -o bin/$@ $^ -lnoise 
+
+worms: examples/worms.cpp
+	$(MKDIR) -p bin
+	$(CXX) $(CXXFLAGS) -I./include -I/usr/include -L./lib -o bin/$@ $^ -lnoise -lGL -lGLU -lglut
 
 .PHONY: example
 example: all $(EXAMPLE_BIN)
@@ -72,7 +93,7 @@ uninstall:
 libnoise.so.1.0.0: $(MODULE_OBJECTS) $(MODEL_OBJECTS) $(UTIL_OBJECTS)
 	$(MKDIR) -p $(PWD)/lib
 	$(CXX) $(CXXFLAGS) -shared -o $(PWD)/lib/$@ -Wl,--start-group $^ -Wl,--end-group
-	ln -sfr $(PWD)/lib/libnoise.so.1.0.0 $(PWD)/lib/libnoise.so	
+	cd lib && ln -sf libnoise.so.1.0.0 libnoise.so	
 
 .PHONY: includes
 includes: moduleincludes modelincludes
