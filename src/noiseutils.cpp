@@ -29,6 +29,7 @@
 #include <algorithm>
 
 using namespace noise;
+using namespace noise::utils;
 using namespace noise::model;
 using namespace noise::module;
 
@@ -752,6 +753,8 @@ void WriterTER::WriteDestFile ()
 
 /////////////////////////////////////////////////////////////////////////////
 // NoiseMapBuilder class
+
+
 
 NoiseMapBuilder::NoiseMapBuilder ():
   m_pCallback (nullptr),

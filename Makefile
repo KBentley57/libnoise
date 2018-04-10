@@ -1,6 +1,6 @@
 SHELL:=/bin/bash
 
-CXXFLAGS:= -std=c++17 -fpic -g
+CXXFLAGS:= -std=c++17 -fpic -g -O3 -march=native -msse2
 CC:= gcc
 CXX:= g++
 
